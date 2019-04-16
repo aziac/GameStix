@@ -45,14 +45,6 @@ export class CustomerFormPage {
     saveCustomer() {
         this.presentLoading();
          console.log('MKKKKK ',this.customer);
-        this.customerService.saveCustomer(this.customer)
-            .then(() => {
-                this.navCtrl.push(CustomersPage);
-                this.dismissLoading();
-            })
-            .catch(() => {
-                this.dismissLoading();
-            });
     }
 
 
