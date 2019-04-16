@@ -76,12 +76,15 @@ var CustomersPage = (function () {
     };
     CustomersPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-costumers',template:/*ion-inline-start:"/home/ubuntu/Escritorio/apis angular/ionic-angular-crud/src/pages/customers/customers.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>Ionic Angular - CRUD Customers</ion-title>\n      <ion-buttons end>\n          <button ion-button icon-only (click)="openCustomerForm()">\n              <ion-icon name="person-add"></ion-icon>\n          </button>\n      </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n  <ion-list>\n      <ion-item *ngFor="let customer of customers">\n          <ion-card>\n              <ion-card-content>\n                  <ion-item><ion-icon name="person"></ion-icon> {{customer.id}} - {{customer.name}}</ion-item>\n                  <ion-item><ion-icon name="at"></ion-icon> {{customer.email}}</ion-item>\n                  <ion-item><ion-icon name="phone-portrait"></ion-icon> {{customer.phone}}</ion-item>\n                  <ion-item><ion-icon name="pin"></ion-icon> {{customer.address}} {{customer.city}}, {{customer.state}} {{customer.zipcode}}</ion-item>\n                  <ion-buttons block>\n                      <button ion-button icon-left (click)="openEditCustomerForm(customer)">\n                          <ion-icon name="create"></ion-icon>\n                          Edit\n                      </button>\n                      <button ion-button icon-left color="danger" (click)="presentConfirm(customer)">\n                          <ion-icon name="remove"></ion-icon>\n                          Remove\n                      </button>\n                  </ion-buttons>\n              </ion-card-content>\n          </ion-card>\n      </ion-item>\n  </ion-list>\n</ion-content>'/*ion-inline-end:"/home/ubuntu/Escritorio/apis angular/ionic-angular-crud/src/pages/customers/customers.html"*/
+            selector: 'page-costumers',template:/*ion-inline-start:"/home/mauricio/github/projects/playground/GameStix/src/pages/customers/customers.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>Ionic Angular - CRUD Customers</ion-title>\n      <ion-buttons end>\n          <button ion-button icon-only (click)="openCustomerForm()">\n              <ion-icon name="person-add"></ion-icon>\n          </button>\n      </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n  <ion-list>\n      <ion-item *ngFor="let customer of customers">\n          <ion-card>\n              <ion-card-content>\n                  <ion-item><ion-icon name="person"></ion-icon> {{customer.id}} - {{customer.name}}</ion-item>\n                  <ion-item><ion-icon name="at"></ion-icon> {{customer.email}}</ion-item>\n                  <ion-item><ion-icon name="phone-portrait"></ion-icon> {{customer.phone}}</ion-item>\n                  <ion-item><ion-icon name="pin"></ion-icon> {{customer.address}} {{customer.city}}, {{customer.state}} {{customer.zipcode}}</ion-item>\n                  <ion-buttons block>\n                      <button ion-button icon-left (click)="openEditCustomerForm(customer)">\n                          <ion-icon name="create"></ion-icon>\n                          Edit\n                      </button>\n                      <button ion-button icon-left color="danger" (click)="presentConfirm(customer)">\n                          <ion-icon name="remove"></ion-icon>\n                          Remove\n                      </button>\n                  </ion-buttons>\n              </ion-card-content>\n          </ion-card>\n      </ion-item>\n  </ion-list>\n</ion-content>'/*ion-inline-end:"/home/mauricio/github/projects/playground/GameStix/src/pages/customers/customers.html"*/
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ViewController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ViewController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__services_customer_service__["a" /* CustomerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_customer_service__["a" /* CustomerService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* LoadingController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _e || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ViewController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_3__services_customer_service__["a" /* CustomerService */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* LoadingController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]])
     ], CustomersPage);
     return CustomersPage;
-    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=customers.js.map
@@ -126,9 +129,13 @@ var CustomerService = (function (_super) {
     function CustomerService(http) {
         var _this = _super.call(this, http) || this;
         _this.http = http;
-        _this.http.get("http://localhost:5000/customers/");
-        console.log('MENSAJE', _this.http.get("http://localhost:5000/customers/"));
+        _this.http.get("http://localhost:3000/customers/")
+            .subscribe(function (response) {
+            console.log(response);
+        });
         return _this;
+        // ESTO NO HACE LO QUE CREES QUE HACE
+        //console.log('MENSAJE', this.http.get(`http://localhost:3000/customers/`));
     }
     CustomerService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
@@ -228,17 +235,8 @@ var CustomerFormPage = (function () {
         });
     }
     CustomerFormPage.prototype.saveCustomer = function () {
-        var _this = this;
         this.presentLoading();
         console.log('MKKKKK ', this.customer);
-        this.customerService.saveCustomer(this.customer)
-            .then(function () {
-            _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_6__customers_customers__["a" /* CustomersPage */]);
-            _this.dismissLoading();
-        })
-            .catch(function () {
-            _this.dismissLoading();
-        });
     };
     CustomerFormPage.prototype.dismissLoading = function () {
         this.loading.dismiss();
@@ -260,15 +258,12 @@ var CustomerFormPage = (function () {
     };
     CustomerFormPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'customer-form',template:/*ion-inline-start:"/home/ubuntu/Escritorio/apis angular/ionic-angular-crud/src/pages/customer-form/customer-form.html"*/'<ion-header>\n    <ion-navbar>\n        <ion-title>Ionic Angular - CRUD Customers</ion-title>\n    </ion-navbar>\n</ion-header>\n\n<ion-content>\n    <ion-item>{{title}}</ion-item>\n    <form [formGroup]="formGroup" (ngSubmit)="saveCustomer()">\n        <ion-item>\n            <ion-label color="primary" floating>Name</ion-label>\n            <ion-input type="text" [(ngModel)]="customer.name" name="name" formControlName="name"></ion-input>\n        </ion-item>\n        <ion-item>\n            <ion-label color="primary" floating>E-mail</ion-label>\n            <ion-input type="email" [(ngModel)]="customer.email" formControlName="email"></ion-input>\n        </ion-item>\n        <ion-item>\n            <ion-label color="primary" floating>Phone</ion-label>\n            <ion-input type="tel" [(ngModel)]="customer.phone" formControlName="phone" mask="999-999-9999"></ion-input>\n        </ion-item>\n        <ion-item>\n            <ion-label color="primary" floating>Address</ion-label>\n            <ion-input type="text" [(ngModel)]="customer.address" formControlName="address"></ion-input>\n        </ion-item>\n        <ion-item>\n            <ion-label color="primary" floating>City</ion-label>\n            <ion-input type="text" [(ngModel)]="customer.city" formControlName="city"></ion-input>\n        </ion-item>\n        <ion-item>\n            <ion-label color="primary" floating>State</ion-label>\n            <ion-input type="text" [(ngModel)]="customer.state" formControlName="state"></ion-input>\n        </ion-item>\n        <ion-item>\n            <ion-label color="primary" floating>Zipcode</ion-label>\n            <ion-input type="number" [(ngModel)]="customer.zipcode" formControlName="zipcode" mask="99999"></ion-input>\n        </ion-item>\n        <ion-buttons end>\n            <button ion-button type="submit" [disabled]="!formGroup.valid">\n                <ion-icon name="checkmark"></ion-icon>\n                Save\n            </button>\n        </ion-buttons>\n    </form>\n</ion-content>'/*ion-inline-end:"/home/ubuntu/Escritorio/apis angular/ionic-angular-crud/src/pages/customer-form/customer-form.html"*/
+            selector: 'customer-form',template:/*ion-inline-start:"/home/mauricio/github/projects/playground/GameStix/src/pages/customer-form/customer-form.html"*/'<ion-header>\n    <ion-navbar>\n        <ion-title>Ionic Angular - CRUD Customers</ion-title>\n    </ion-navbar>\n</ion-header>\n\n<ion-content>\n    <ion-item>{{title}}</ion-item>\n    <form [formGroup]="formGroup" (ngSubmit)="saveCustomer()">\n        <ion-item>\n            <ion-label color="primary" floating>Name</ion-label>\n            <ion-input type="text" [(ngModel)]="customer.name" name="name" formControlName="name"></ion-input>\n        </ion-item>\n        <ion-item>\n            <ion-label color="primary" floating>E-mail</ion-label>\n            <ion-input type="email" [(ngModel)]="customer.email" formControlName="email"></ion-input>\n        </ion-item>\n        <ion-item>\n            <ion-label color="primary" floating>Phone</ion-label>\n            <ion-input type="tel" [(ngModel)]="customer.phone" formControlName="phone" mask="999-999-9999"></ion-input>\n        </ion-item>\n        <ion-item>\n            <ion-label color="primary" floating>Address</ion-label>\n            <ion-input type="text" [(ngModel)]="customer.address" formControlName="address"></ion-input>\n        </ion-item>\n        <ion-item>\n            <ion-label color="primary" floating>City</ion-label>\n            <ion-input type="text" [(ngModel)]="customer.city" formControlName="city"></ion-input>\n        </ion-item>\n        <ion-item>\n            <ion-label color="primary" floating>State</ion-label>\n            <ion-input type="text" [(ngModel)]="customer.state" formControlName="state"></ion-input>\n        </ion-item>\n        <ion-item>\n            <ion-label color="primary" floating>Zipcode</ion-label>\n            <ion-input type="number" [(ngModel)]="customer.zipcode" formControlName="zipcode" mask="99999"></ion-input>\n        </ion-item>\n        <ion-buttons end>\n            <button ion-button type="submit" [disabled]="!formGroup.valid">\n                <ion-icon name="checkmark"></ion-icon>\n                Save\n            </button>\n        </ion-buttons>\n    </form>\n</ion-content>'/*ion-inline-end:"/home/mauricio/github/projects/playground/GameStix/src/pages/customer-form/customer-form.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["f" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["g" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_4__services_customer_service__["a" /* CustomerService */],
-            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["e" /* LoadingController */],
-            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormBuilder */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["f" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["f" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["g" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["g" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__services_customer_service__["a" /* CustomerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_customer_service__["a" /* CustomerService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["e" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["e" /* LoadingController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormBuilder */]) === "function" && _e || Object])
     ], CustomerFormPage);
     return CustomerFormPage;
+    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=customer-form.js.map
@@ -417,7 +412,7 @@ var MyApp = (function () {
         });
     }
     MyApp = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/home/ubuntu/Escritorio/apis angular/ionic-angular-crud/src/app/app.html"*/'<ion-nav [root]="rootPage"></ion-nav>\n'/*ion-inline-end:"/home/ubuntu/Escritorio/apis angular/ionic-angular-crud/src/app/app.html"*/
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/home/mauricio/github/projects/playground/GameStix/src/app/app.html"*/'<ion-nav [root]="rootPage"></ion-nav>\n'/*ion-inline-end:"/home/mauricio/github/projects/playground/GameStix/src/app/app.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
     ], MyApp);
