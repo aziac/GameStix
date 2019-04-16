@@ -44,12 +44,8 @@ export class CustomerFormPage {
     }
 
     saveCustomer() {
-        this.presentLoading();
-<<<<<<< HEAD
-        console.log('MKKKKK ',this.customer);
-=======
-         console.log('MKKKKK ',this.customer);
->>>>>>> 7fb43040427039997ecd193ecccb364fafcc8009
+      this.presentLoading();
+      console.log('MKKKKK ',this.customer);
     }
 
 
