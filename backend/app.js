@@ -12,19 +12,15 @@ var app = express();
 
 app.use(express.static('www'));
 const cors = require('cors'); 
-app.use(cors()); 
-//app.options('*', cors()); 
 
-app.use(cors({ origin: 'localhost:8100' })); 
-
-/* 
 var allowCrossDomain = function(req, res, next) { 
-res.header('Access-Control-Allow-Origin', 'localhost:8100'); 
-res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE'); 
-res.header('Access-Control-Allow-Headers', 'Content-Type'); 
+res.setHeader('Access-Control-Allow-Origin', '*');
+res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
 next(); 
 } 
+/* 
+
 
 
 app.all('*', function(req, res, next) { 
@@ -33,9 +29,11 @@ res.header("Access-Control-Allow-Headers", "X-Requested-With");
 next(); 
 }); 
 */ 
-/* 
+
 app.use(allowCrossDomain); 
-*/ 
+ 
+
+app.use(cors({ origin: 'localhost:8100' })); 
 
 // view engine setup 
 app.set('views', path.join(__dirname, 'views')); 
@@ -73,6 +71,14 @@ res.locals.error = req.app.get('env') === 'development' ? err : {};
 res.status(err.status || 500); 
 res.render('error'); 
 }); 
+
+app.use(function(req, res, next) {  
+res.setHeader('Access-Control-Allow-Origin', '*');
+res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+next(); 
+});
+
+
 app.listen(5000, function () { 
 console.log('Example app listening on port 3000!'); 
 }); 

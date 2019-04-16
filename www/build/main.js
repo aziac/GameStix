@@ -39,32 +39,6 @@ var CustomersPage = (function () {
     CustomersPage.prototype.openEditCustomerForm = function (customer) {
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__customer_form_customer_form__["a" /* CustomerFormPage */], customer);
     };
-    CustomersPage.prototype.deleteCustomer = function (customer) {
-        var _this = this;
-        this.presentLoading();
-        this.customerService
-            .deleteCustomer(customer)
-            .then(function () {
-            _this.dismissLoading();
-            _this.populateCustomers();
-        })
-            .catch(function () {
-            _this.dismissLoading();
-        });
-    };
-    CustomersPage.prototype.populateCustomers = function () {
-        var _this = this;
-        this.presentLoading();
-        this.customerService
-            .getCustomers()
-            .then(function (customers) {
-            _this.customers = customers;
-            _this.dismissLoading();
-        })
-            .catch(function () {
-            _this.dismissLoading();
-        });
-    };
     CustomersPage.prototype.dismissLoading = function () {
         this.loading.dismiss();
     };
@@ -75,7 +49,6 @@ var CustomersPage = (function () {
         this.loading.present();
     };
     CustomersPage.prototype.presentConfirm = function (customer) {
-        var _this = this;
         this.alert = this.alertCtrl.create({
             title: 'Confirm deletion',
             message: "Are you sure that you want to delete '" + customer.name + "' ?",
@@ -88,7 +61,7 @@ var CustomersPage = (function () {
                 {
                     text: 'Delete',
                     handler: function () {
-                        _this.deleteCustomer(customer);
+                        //this.deleteCustomer(customer)
                     }
                 }
             ]
@@ -99,19 +72,16 @@ var CustomersPage = (function () {
         this.viewCtrl.showBackButton(false);
     };
     CustomersPage.prototype.ngOnInit = function () {
-        this.populateCustomers();
+        //this.populateCustomers();
     };
     CustomersPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-costumers',template:/*ion-inline-start:"/home/ubuntu/Escritorio/apis angular/ionic-angular-crud/src/pages/customers/customers.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>Ionic Angular - CRUD Customers</ion-title>\n      <ion-buttons end>\n          <button ion-button icon-only (click)="openCustomerForm()">\n              <ion-icon name="person-add"></ion-icon>\n          </button>\n      </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n  <ion-list>\n      <ion-item *ngFor="let customer of customers">\n          <ion-card>\n              <ion-card-content>\n                  <ion-item><ion-icon name="person"></ion-icon> {{customer.id}} - {{customer.name}}</ion-item>\n                  <ion-item><ion-icon name="at"></ion-icon> {{customer.email}}</ion-item>\n                  <ion-item><ion-icon name="phone-portrait"></ion-icon> {{customer.phone}}</ion-item>\n                  <ion-item><ion-icon name="pin"></ion-icon> {{customer.address}} {{customer.city}}, {{customer.state}} {{customer.zipcode}}</ion-item>\n                  <ion-buttons block>\n                      <button ion-button icon-left (click)="openEditCustomerForm(customer)">\n                          <ion-icon name="create"></ion-icon>\n                          Edit\n                      </button>\n                      <button ion-button icon-left color="danger" (click)="presentConfirm(customer)">\n                          <ion-icon name="remove"></ion-icon>\n                          Remove\n                      </button>\n                  </ion-buttons>\n              </ion-card-content>\n          </ion-card>\n      </ion-item>\n  </ion-list>\n</ion-content>'/*ion-inline-end:"/home/ubuntu/Escritorio/apis angular/ionic-angular-crud/src/pages/customers/customers.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ViewController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_3__services_customer_service__["a" /* CustomerService */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* LoadingController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ViewController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ViewController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__services_customer_service__["a" /* CustomerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_customer_service__["a" /* CustomerService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* LoadingController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _e || Object])
     ], CustomersPage);
     return CustomersPage;
+    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=customers.js.map
@@ -156,40 +126,16 @@ var CustomerService = (function (_super) {
     function CustomerService(http) {
         var _this = _super.call(this, http) || this;
         _this.http = http;
-        _this.customerURL = 'localhost:5000/customers';
         _this.http.get("http://localhost:5000/customers/");
         console.log('MENSAJE', _this.http.get("http://localhost:5000/customers/"));
         return _this;
     }
-    CustomerService.prototype.saveCustomer = function (customer) {
-        if (customer.id) {
-            return this.updateCustomer(customer);
-        }
-        else {
-            return this.createCustomer(customer);
-        }
-    };
-    CustomerService.prototype.getCustomers = function () {
-        return this._get(this.customerURL);
-    };
-    CustomerService.prototype.createCustomer = function (customer) {
-        var body = this._toHttpParams(customer);
-        return this._post(this.customerURL, body);
-    };
-    CustomerService.prototype.updateCustomer = function (customer) {
-        var body = this._toHttpParams(customer);
-        var url = this.customerURL + "/" + customer.id;
-        return this._put(url, body);
-    };
-    CustomerService.prototype.deleteCustomer = function (customer) {
-        var url = this.customerURL + "/" + customer.id;
-        return this._delete(url);
-    };
     CustomerService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["a" /* HttpClient */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["a" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["a" /* HttpClient */]) === "function" && _a || Object])
     ], CustomerService);
     return CustomerService;
+    var _a;
 }(__WEBPACK_IMPORTED_MODULE_3__base_api_service__["a" /* BaseApiService */]));
 
 //# sourceMappingURL=customer.service.js.map

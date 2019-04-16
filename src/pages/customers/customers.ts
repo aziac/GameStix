@@ -31,31 +31,7 @@ export class CustomersPage {
         this.navCtrl.push(CustomerFormPage, customer);
     }
 
-    deleteCustomer(customer) {
-        this.presentLoading();
-        this.customerService
-            .deleteCustomer(customer)
-            .then(()=>{
-                this.dismissLoading();
-                this.populateCustomers();
-            })
-            .catch(() =>{
-                this.dismissLoading();
-            });
-    }
-
-    populateCustomers(){
-        this.presentLoading();
-        this.customerService
-            .getCustomers()
-            .then((customers) => {
-                this.customers = customers;
-                this.dismissLoading();
-            })
-            .catch(() =>{
-                this.dismissLoading();
-            });
-    }
+   
 
     dismissLoading() {
         this.loading.dismiss();
@@ -81,7 +57,7 @@ export class CustomersPage {
                 {
                     text: 'Delete',
                     handler: () => {
-                       this.deleteCustomer(customer)
+                       //this.deleteCustomer(customer)
                     }
                 }
             ]
@@ -94,6 +70,6 @@ export class CustomersPage {
     }
 
     ngOnInit() {
-        this.populateCustomers();
+        //this.populateCustomers();
     }
 }
