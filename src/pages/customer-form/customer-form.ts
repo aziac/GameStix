@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
+
 import 'rxjs/add/operator/map';
 
 import { CustomerService } from '../../services/customer.service'
@@ -44,15 +45,7 @@ export class CustomerFormPage {
 
     saveCustomer() {
         this.presentLoading();
-         console.log('MKKKKK ',this.customer);
-        this.customerService.saveCustomer(this.customer)
-            .then(() => {
-                this.navCtrl.push(CustomersPage);
-                this.dismissLoading();
-            })
-            .catch(() => {
-                this.dismissLoading();
-            });
+        console.log('MKKKKK ',this.customer);
     }
 
 
